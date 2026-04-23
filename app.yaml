@@ -1,0 +1,9 @@
+runtime: nodejs20 # גרסת ה-LTS העדכנית והיציבה ביותר ב-GCP
+env: standard
+instance_class: F1 # האופציה החסכונית ביותר, מתאימה ל-API של עוזר וירטואלי בתחילת הדרך
+
+# ניהול משתני סביבה (חשוב בגלל השימוש ב-Mongoose ו-Nodemailer)
+env_variables:
+  NODE_ENV: "production"
+  PORT: 3000
+  MONGODB_URI: "mongodb://localhost:27017/virtual_assistant_db"
