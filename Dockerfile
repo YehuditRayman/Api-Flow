@@ -18,4 +18,4 @@ COPY . .
 EXPOSE 8080
 
 # 7. פקודת ההרצה של האפליקציה
-CMD ["node", "app.js"]
+CMD ["npm", "run", "dev"]
