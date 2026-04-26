@@ -1,10 +1,12 @@
-// src/routes/cv.routes.js
 const express = require('express');
 const router = express.Router();
 
-const { validateCvRequest } = require('../validators/cv.validator');
-const { fetchCv } = require('../controllers/cv.controller');
+const { verifyToken } = require('../middlewares/auth.middleware');
 
-router.post('/get-cv', validateCvRequest, fetchCv);
+const { validateCvRequest } = require('../validators/cv.validator');
+const { fetchCv,getAllCvs } = require('../controllers/cv.controller');
+
+router.post('/get-cv', verifyToken, validateCvRequest, fetchCv);
+router.get('/get-all-cvs', verifyToken, getAllCvs);
 
 module.exports = router;

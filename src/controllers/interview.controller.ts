@@ -3,7 +3,6 @@ const { processExpertiseData } = require('../services/interview.service');
 
 const saveExpertise = async (req:Request, res:Response) => {
     try {
-        // חילוץ המייל מה-body יחד עם שאר הנתונים
         const { candidate_name, expertise, candidate_email } = req.body;
 
         const serviceResult = await processExpertiseData(candidate_name, expertise, candidate_email);

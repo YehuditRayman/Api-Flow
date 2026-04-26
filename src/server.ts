@@ -1,5 +1,6 @@
-require('dotenv').config(); // טעינת משתני סביבה מהקובץ .env
+require('dotenv').config(); 
 const express = require('express');
+const cors = require('cors'); // 1. העברתי את הייבוא להתחלה
 const connectDB = require('./db/db-connection'); 
 
 const interviewRoutes = require('./routes/interview.routes');
@@ -9,6 +10,8 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 connectDB();
+
+app.use(cors({ origin: true })); 
 
 app.use(express.json());
 
