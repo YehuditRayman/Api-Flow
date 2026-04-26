@@ -1,6 +1,7 @@
 import type { Request, Response, NextFunction } from 'express';
 const { getCandidateCvData } = require('../services/cv.service');
 const { firebaseAdmin } = require('../config/firebase.config');
+const CV = require('../models/cv.model');
 
 const fetchCv = async (req: Request, res: Response) => {
     try {
@@ -32,21 +33,15 @@ const fetchCv = async (req: Request, res: Response) => {
 
 const getAllCvs = async (req: Request, res: Response) => {
     try {
-        const db = firebaseAdmin.firestore();
-        const snapshot = await db.collection('cvs').get();
+        const cvsList = await CV.find({}).lean();
 
-        // תיקון: הגדרנו במפורש שזהו מערך שיכול להכיל כל סוג של נתון (any[])
-        const cvsList: any[] = [];
-
-        // תיקון: הגדרנו ש-doc הוא מסוג any
-        snapshot.forEach((doc: any) => {
-            cvsList.push({ id: doc.id, ...doc.data() });
+        return res.status(200).json({ 
+            success: true, 
+            data: cvsList 
         });
-
-        return res.status(200).json({ success: true, data: cvsList });
     } catch (error: any) {
-        // השורה הזו קריטית: היא תדפיס ללוגים של גוגל את השגיאה האמיתית של פיירבייס!
-        console.error("🔥 Error fetching CVs:", error);
+        // מדפיס ללוגים בגוגל קלאוד במקרה של קריסה
+        console.error("🔥 Error fetching CVs from MongoDB:", error);
 
         return res.status(500).json({
             success: false,
@@ -55,4 +50,4 @@ const getAllCvs = async (req: Request, res: Response) => {
     }
 };
 
-    module.exports = { fetchCv, getAllCvs };
+module.exports = { fetchCv, getAllCvs };
