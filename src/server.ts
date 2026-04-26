@@ -14,7 +14,7 @@ connectDB();
 // --- תחילת השינוי בהגדרות ה-CORS ---
 const allowedOrigins = [
   'http://localhost:5173', // מאפשר לפרונטאנד המקומי שלך (Vite) לגשת במהלך הפיתוח
-  'https://storage.googleapis.com/virtual-assistant-app/index.html' // מאפשר לפרונטאנד שיושב ב-Google Cloud Storage לגשת לשרת
+  'https://storage.googleapis.com' // מאפשר לפרונטאנד שיושב ב-Google Cloud Storage לגשת לשרת
 ];
 
 app.use(cors({
