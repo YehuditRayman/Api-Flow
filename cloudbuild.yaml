@@ -1,0 +1,26 @@
+steps:
+  # 1. בניית ה-Docker Image מתוך הקוד שלך
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/api-flow', '.']
+
+  # 2. דחיפת ה-Image למאגר התמונות של גוגל
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/api-flow']
+
+  # 3. פריסה ל-Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'api-flow' # שם השירות שלך ב-Cloud Run
+      - '--image'
+      - 'gcr.io/$PROJECT_ID/api-flow'
+      - '--region'
+      - 'europe-west1' # האזור שבחרת
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+
+images:
+  - 'gcr.io/$PROJECT_ID/api-flow'
